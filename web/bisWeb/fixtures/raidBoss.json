@@ -1,0 +1,74 @@
+[
+    {
+      "model": "bisWeb.raidboss",
+      "pk": 1,
+      "fields": {
+        "name": "Gnarlroot",
+        "raid": 1
+      }
+    },
+    {
+      "model": "bisWeb.raidboss",
+      "pk": 2,
+      "fields": {
+        "name": "Igira the Cruel",
+        "raid": 1
+      }
+    },
+    {
+      "model": "bisWeb.raidboss",
+      "pk": 3,
+      "fields": {
+        "name": "Volcoross",
+        "raid": 1
+      }
+    },
+    {
+        "model": "bisWeb.raidboss",
+        "pk": 4,
+        "fields": {
+          "name": "Council of Dreams",
+          "raid": 1
+        }
+      },
+      {
+        "model": "bisWeb.raidboss",
+        "pk": 5,
+        "fields": {
+          "name": "Larodar, Keeper of the Flame",
+          "raid": 1
+        }
+      },
+      {
+        "model": "bisWeb.raidboss",
+        "pk": 6,
+        "fields": {
+          "name": "Nymue, Weaver of the Cycle",
+          "raid": 1
+        }
+      },
+      {
+        "model": "bisWeb.raidboss",
+        "pk": 7,
+        "fields": {
+          "name": "Smolderon",
+          "raid": 1
+        }
+      },
+      {
+        "model": "bisWeb.raidboss",
+        "pk": 8,
+        "fields": {
+          "name": "Tindral Sageswift, Seer of the Flame",
+          "raid": 1
+        }
+      },
+      {
+        "model": "bisWeb.raidboss",
+        "pk": 9,
+        "fields": {
+          "name": "Fyrakk the Blazing",
+          "raid": 1
+        }
+      }
+  ]

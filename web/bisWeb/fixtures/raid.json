@@ -1,0 +1,9 @@
+[
+    {
+      "model": "bisWeb.raid", 
+      "pk": 1,     
+      "fields": {
+        "name": "Amirdrassil: The Dream's Hope"
+      }
+    }    
+  ]

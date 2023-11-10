@@ -1,0 +1,26 @@
+[
+    {
+      "model": "bisWeb.bossitem",
+      "pk": 1,
+      "fields": {
+        "name": "Item A",
+        "boss": 1
+      }
+    },
+    {
+      "model": "bisWeb.bossitem",
+      "pk": 1,
+      "fields": {
+        "name": "Item B",
+        "boss": 2
+      }
+    },
+    {
+      "model": "bisWeb.bossitem",
+      "pk": 3,
+      "fields": {
+        "name": "Item C",
+        "boss": 3
+      }
+    }
+  ]
