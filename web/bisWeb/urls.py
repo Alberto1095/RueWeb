@@ -18,4 +18,10 @@ from . import views
 
 urlpatterns = [
     path('test', views.test),    
+    path('login/', views.loginView, name='login'),
+    path('logout/', views.logoutUser, name='logout'), 
+    path('adminPanel/', views.adminView, name='adminView'),  
+    path('bisListView/', views.bisListView, name='bisListView'),   
+    path('addItemsToPlayer/', views.addItemsToPlayer, name='addItemsToPlayer'),  
+    
 ]

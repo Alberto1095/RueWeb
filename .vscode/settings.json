@@ -1,5 +1,3 @@
 {
-    "python.analysis.extraPaths": [
-        "./web"
-    ]
+    "python.pythonPath": "c:\\Users\\alberto.monasterio\\Desktop\\Django\\projects\\RueWeb\\env\\Scripts\\python.exe"
 }
