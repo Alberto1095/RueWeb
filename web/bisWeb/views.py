@@ -6,8 +6,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .models import *
 from .serializers import *
+import pandas as pd
+from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
-
 def test(request):
 	context = {}
 	context['errorLogin'] = False
@@ -80,6 +81,40 @@ def addItemsToPlayer(request):
 		return render(request, "adminViewTemplate.html", context)
 
 	return render (request, "adminViewTemplate.html")
+
+
+
+@csrf_exempt
+def initializeDatabase(request):
+	if request.method == 'POST' and request.FILES['excelFile']:
+		excelFile = request.FILES['excelFile']
+
+		# Leer el archivo Excel utilizando pandas
+		xls = pd.ExcelFile(excelFile)
+		#Recorrer cada hoja que representa una raid
+		for hoja_nombre in xls.sheet_names:
+			hoja = xls.parse(hoja_nombre)		
+			#Crear u obtener la raid si ya existe
+			nombreRaid = hoja_nombre.strip()
+			print(nombreRaid)
+			raid, created = Raid.objects.get_or_create(name=nombreRaid)
+
+			# Leer cada columna que representa un boss
+			for nombreColumna in hoja.columns:
+				#obtenemos o creamos el boss
+				nombreBoss = nombreColumna.strip()
+				print(nombreBoss)
+				boss, created = RaidBoss.objects.get_or_create(name=nombreBoss,raid=raid)
+				columna = hoja[nombreColumna]
+				itemList = columna.tolist()
+
+				for item in itemList:
+					if isinstance(item,str):
+						itemName = item.strip()
+						item, created = BossItem.objects.get_or_create(name=itemName,boss=boss)		
+		
+		return HttpResponse("Initialized")
+ 
 
 def raidListView(request):	
 	context = {}	

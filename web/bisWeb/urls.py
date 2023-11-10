@@ -24,5 +24,6 @@ urlpatterns = [
     path('raidListView', views.raidListView, name='raidListView'),   
     path('bisListView/<raidID>', views.bisListView, name='bisListView'),   
     path('addItemsToPlayer/', views.addItemsToPlayer, name='addItemsToPlayer'),  
+    path('initializeDatabase/', views.initializeDatabase, name='initializeDatabase'),  
     
 ]
