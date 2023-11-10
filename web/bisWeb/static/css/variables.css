@@ -1,0 +1,13 @@
+:root {
+    --color-blue: #0f71b7;
+    --color-light-blue: #009fe3;
+    --color-dark-blue: #263474;
+    --color-light-green: #00d390;
+    --color-dark-green: #006343;
+    --color-dark-black: black;
+    --color-light-black: rgb(204, 204, 204);
+    --color-white: white;
+    --color-dark-purple: rgb(196, 0, 98);
+    --color-light-purple: rgb(255, 130, 192);
+    --color-error: rgb(255, 0, 0);
+}

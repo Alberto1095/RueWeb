@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+{% load static %}
+{% get_static_prefix as STATIC_PREFIX %}
+<html>
+
+<head>
+    {% include "head.html" %}
+    <title>Rue</title>   
+</head>
+
+<body>
+    <div class="navbar">                    
+        <div id="loggedForm" class="right-container hide">
+            <input type="text" placeholder="Usuario" name="username">
+            <input type="password" placeholder="Contraseña" name="password">
+            <button id="iniciarSesionButton" type="submit">Iniciar Sesión</button>
+        </div>
+        <div id="notLoggedForm" class="right-container">
+            <p>Logged as Rhur</p>   
+            <button id="panelControlButton" type="submit">Panel de Control</button>        
+            <button id="salirSesionButton" type="submit">Salir Sesión</button>
+        </div>
+    </div>
+
+    <div class="content">
+        <select id="raidSelector" class="raidSelector">
+            <option value="opcion1">Raid name</option>
+            <option value="opcion2">Raid name</option>
+            <option value="opcion3">Raid name</option>
+            <option value="opcion4">Raid name</option>           
+        </select>
+        <div class="bis-container">
+            <div id="bossList" class="bossList-container">
+                <div class="boss">Boss name</div>
+                <div class="boss">Boss name</div>
+                <div class="boss">Boss name</div>
+                <div class="boss">Boss name</div>
+                <div class="boss">Boss name</div>
+            </div>
+            <div class="right-container">
+                <div id="itemList" class="itemsList-container">
+                    <div class="item">Item name</div>
+                    <div class="item selected">Item name</div>                    
+                </div>
+                <div id="playerList" class="playerList-container">
+                    <div id="playerButton" class="player">Player name</div>
+                    <div id="playerButton" class="player">Player name</div>
+                    <div id="playerButton" class="player">Player name</div>
+                    <div id="playerButton" class="player">Player name</div>     
+                    <div id="playerButton" class="player">Player name</div>
+                    <div id="playerButton" class="player">Player name</div>
+                    <div id="playerButton" class="player">Player name</div>
+                    <div id="playerButton" class="player">Player name</div>    
+                    <div id="playerButton" class="player">Player name</div>
+                    <div id="playerButton" class="player">Player name</div>
+                    <div id="playerButton" class="player">Player name</div>
+                    <div id="playerButton" class="player">Player name</div>    
+                    <div id="playerButton" class="player">Player name</div>
+                    <div id="playerButton" class="player">Player name</div>
+                    <div id="playerButton" class="player">Player name</div>
+                    <div id="playerButton" class="player">Player name</div>    
+                    <div id="playerButton" class="player">Player name</div>
+                    <div id="playerButton" class="player">Player name</div>
+                    <div id="playerButton" class="player">Player name</div>
+                    <div id="playerButton" class="player">Player name</div>                   
+                </div>
+            </div>
+        </div>       
+    </div>
+    <!--====== js ======-->
+    {% include "js.html" %}   
+    <script>
+        var bossesJsonString = "{{ bosses }}";  
+    </script>
+    <script src="{{ STATIC_PREFIX }}js/bisView.js"></script>
+    <!--====== End js ======-->
+
+</body>
+
+</html>

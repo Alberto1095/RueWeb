@@ -8,11 +8,19 @@ from .models import *
 from .serializers import *
 import pandas as pd
 from django.views.decorators.csrf import csrf_exempt
+import json
+
 # Create your views here.
 def test(request):
 	context = {}
-	context['errorLogin'] = False
-	return render(request, "test.html", context)
+	context['errorLogin'] = False	
+	raid = Raid.objects.filter(pk=1).first()
+	bosses = RaidBoss.objects.filter(raid=raid).all()
+	serializer = RaidBossSerializer(bosses,many=True)
+	jsonData = json.dumps(serializer.data)
+	context["bosses"] = jsonData
+	print(jsonData)
+	return render(request, "bisViewTemplate.html", context)
 	
 
 def loginView(request):	
@@ -96,14 +104,14 @@ def initializeDatabase(request):
 			hoja = xls.parse(hoja_nombre)		
 			#Crear u obtener la raid si ya existe
 			nombreRaid = hoja_nombre.strip()
-			print(nombreRaid)
+			
 			raid, created = Raid.objects.get_or_create(name=nombreRaid)
 
 			# Leer cada columna que representa un boss
 			for nombreColumna in hoja.columns:
 				#obtenemos o creamos el boss
 				nombreBoss = nombreColumna.strip()
-				print(nombreBoss)
+				
 				boss, created = RaidBoss.objects.get_or_create(name=nombreBoss,raid=raid)
 				columna = hoja[nombreColumna]
 				itemList = columna.tolist()
