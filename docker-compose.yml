@@ -1,0 +1,12 @@
+version: '3.8'
+services:  
+  web:
+    build: . 
+    ports:
+      - "8000:8000"   
+    volumes:
+      - ./web:/usr/src/app
+    image: web:IMAGE_RUE_WEB
+    container_name: CONTAINER_RUE_WEB
+    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    

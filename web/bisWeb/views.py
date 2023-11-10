@@ -81,13 +81,22 @@ def addItemsToPlayer(request):
 
 	return render (request, "adminViewTemplate.html")
 
-def bisListView(request):	
+def raidListView(request):	
 	context = {}	
-	raid = Raid.objects.filter(pk=1).first()
+	raid = Raid.objects.all()	
+	serializer = RaidSerializer(raid,many=True)
+	context["raid"] = serializer.data
+
+	return JsonResponse(serializer.data, safe=False)
+	#return render (request, "raidListViewTemplate.html",context)
+
+def bisListView(request,raidID):	
+	context = {}	
+	raid = Raid.objects.filter(pk=raidID).first()
 	bosses = RaidBoss.objects.filter(raid=raid).all()
 	serializer = RaidBossSerializer(bosses,many=True)
 	context["bosses"] = serializer.data
 
-	#return JsonResponse(serializer.data, safe=False)
-	return render (request, "bisListViewTemplate.html",context)
+	return JsonResponse(serializer.data, safe=False)
+	#return render (request, "bisListViewTemplate.html",context)
 

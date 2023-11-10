@@ -1,6 +1,13 @@
 from rest_framework import serializers
 from .models import *
 
+
+class RaidSerializer(serializers.ModelSerializer):    
+
+    class Meta:
+        model = Raid
+        fields = ['id', 'name']
+
 class PlayerSerializer(serializers.ModelSerializer):    
 
     class Meta:
