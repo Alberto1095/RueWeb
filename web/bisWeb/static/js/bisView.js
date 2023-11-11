@@ -37,18 +37,19 @@ function onSelectBoss(bossName){
         return boss.items;
     })[0];    
     
-    console.log(itemsOfBoss);
+    //Clear player list
+    $("#playerList").html("");
 
     var itemListHtml = "";    
     
-    // Verificar si se encontraron items
+    // Verificar si se encontraron items y añadirlos a la lista
     if (itemsOfBoss) {
         // Recorrer la lista de items y acceder a sus nombres
         for (var i = 0; i < itemsOfBoss.length; i++) {
             var itemName = itemsOfBoss[i].name;
             itemListHtml +=  "<div data-name=\""+itemName+"\" class=\"item\">"+ itemName +"</div>";   
         }
-
+        
         $("#itemList").html(itemListHtml);
 
         //Add click detection

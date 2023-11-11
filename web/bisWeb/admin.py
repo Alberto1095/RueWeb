@@ -3,7 +3,6 @@ from .models import *
 
 # Register your models here.
 
-admin.site.register(Raid)
 admin.site.register(RaidBoss)
 admin.site.register(BossItem)
 admin.site.register(Player)

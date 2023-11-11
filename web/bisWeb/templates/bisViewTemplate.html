@@ -9,26 +9,9 @@
 </head>
 
 <body>
-    <div class="navbar">                    
-        <div id="loggedForm" class="right-container hide">
-            <input type="text" placeholder="Usuario" name="username">
-            <input type="password" placeholder="Contraseña" name="password">
-            <button id="iniciarSesionButton" type="submit">Iniciar Sesión</button>
-        </div>
-        <div id="notLoggedForm" class="right-container">
-            <p>Logged as Rhur</p>   
-            <button id="panelControlButton" type="submit">Panel de Control</button>        
-            <button id="salirSesionButton" type="submit">Salir Sesión</button>
-        </div>
-    </div>
+    {% include "navbar.html" %}   
 
-    <div class="content">
-        <select id="raidSelector" class="raidSelector">
-            <option value="opcion1">Raid name</option>
-            <option value="opcion2">Raid name</option>
-            <option value="opcion3">Raid name</option>
-            <option value="opcion4">Raid name</option>           
-        </select>
+    <div class="content">        
         <div class="bis-container">
             <div id="bossList" class="bossList-container">
                 <div class="boss">Boss name</div>
@@ -70,9 +53,16 @@
     <!--====== js ======-->
     {% include "js.html" %}   
     <script>
+
+        {% if errorLogin %}
+            // Mostrar un alert de error
+            alert('¡Usuario o contraseña incorrectos!');
+        {% endif %}
+
         var bossesJsonString = "{{ bosses }}";  
     </script>
     <script src="{{ STATIC_PREFIX }}js/bisView.js"></script>
+    <script src="{{ STATIC_PREFIX }}js/navBar.js"></script>
     <!--====== End js ======-->
 
 </body>

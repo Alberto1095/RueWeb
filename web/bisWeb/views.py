@@ -11,135 +11,179 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 
 # Create your views here.
-def test(request):
-	context = {}
-	context['errorLogin'] = False	
-	raid = Raid.objects.filter(pk=1).first()
-	bosses = RaidBoss.objects.filter(raid=raid).all()
-	serializer = RaidBossSerializer(bosses,many=True)
-	jsonData = json.dumps(serializer.data)
-	context["bosses"] = jsonData
-	print(jsonData)
-	return render(request, "bisViewTemplate.html", context)
-	
+def bisListView(request):	
+    context = {}
+    if request.user.is_authenticated:
+        context["logged"] = True
+        context["username"] = request.user.username
+    else:
+        context["logged"] = False        
+
+    context["inAdminPanel"] = False    
+    bosses = RaidBoss.objects.filter().all()
+    serializer = RaidBossSerializer(bosses,many=True)
+    jsonData = json.dumps(serializer.data)
+    context["bosses"] = jsonData
+    
+    return render(request, "bisViewTemplate.html", context)
 
 def loginView(request):	
-	if request.user.is_authenticated:
-		return redirect("adminView")
-	else:
-		if request.method == "POST":
-			username = request.POST.get('username')
-			password = request.POST.get('password')
-			user = authenticate(request, username=username, password=password)
-			if user is not None:
-				login(request, user)
-				return redirect("adminView")
-			else:
-				context = {}
-				context["errorLogin"] = True
-				return render(request, "login.html", context)
-		context = {}
-		context["errorLogin"] = False
-		return render(request, "login.html", context)
+    print("login")
+    if request.user.is_authenticated:
+        return redirect("adminView")
+    else:
+        if request.method == "POST":
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect("adminView")
+            else:
+                context = {}
+                context["errorLogin"] = True
+                context["logged"] = False  
+                context["inAdminPanel"] = False
+                bosses = RaidBoss.objects.filter().all()
+                serializer = RaidBossSerializer(bosses,many=True)
+                jsonData = json.dumps(serializer.data)
+                context["bosses"] = jsonData             
+                return render(request, "bisViewTemplate.html", context)        
 
 def logoutUser(request):	
-	logout(request)
-	return redirect("bisListView")
+    logout(request)
+    return redirect("bisListView")
 
-@login_required(login_url='login')
-def adminView(request):		
-	return render (request, "adminViewTemplate.html")
+@login_required(login_url='bisListView')
+def adminView(request):	
+    context = {}
+    context["logged"] = True
+    context["username"] = request.user.username
+    context["inAdminPanel"] = True 
+    return render (request, "adminViewTemplate.html",context)
 
 def obtener_boss_item_por_nombre(nombre_item):
-	try:
-		boss_item = BossItem.objects.get(name=nombre_item)
-		existe_item = True
-	except BossItem.DoesNotExist:
-		boss_item = None
-		existe_item = False
+    try:
+        boss_item = BossItem.objects.get(name=nombre_item)
+        existe_item = True
+    except BossItem.DoesNotExist:
+        boss_item = None
+        existe_item = False
 
-	return boss_item, existe_item
-
-@login_required(login_url='login')
-def addItemsToPlayer(request):	
-	if request.method == 'POST':  
-		added = True
-	
-		playerName = request.POST.get('playerName')    
-		cleanPlayerName = playerName.strip()
-
-		player, created = Player.objects.get_or_create(name=cleanPlayerName)
-
-		listItemsString = request.POST.get('listItems')     
-		listItems = listItemsString.splitlines()
-		player.bisItems.clear()
-
-		for item in listItems:
-			boss_item, existe_item = obtener_boss_item_por_nombre(item)
-			if existe_item:
-				player.bisItems.add(boss_item)
-			else:
-				added = False
-
-		player.save()
-
-		context = {
-			'addedItemsCorrectly': added,            
-		}
-		return render(request, "adminViewTemplate.html", context)
-
-	return render (request, "adminViewTemplate.html")
+    return boss_item, existe_item
 
 
+def validataString(value):
+    try:
+        if isinstance(value,str):
+            cleanValue = value.strip()
+            if len(cleanValue) > 0:
+                return cleanValue,True
+            else:
+                return value,False
+        else:
+            return value,False
+    except:
+        return value,False
+    
 
-@csrf_exempt
+@login_required(login_url='bisListView')
 def initializeDatabase(request):
-	if request.method == 'POST' and request.FILES['excelFile']:
-		excelFile = request.FILES['excelFile']
+    if request.method == 'POST' and request.FILES['excelFile']:
+        try:
+            excelFile = request.FILES['excelFile']
 
-		# Leer el archivo Excel utilizando pandas
-		xls = pd.ExcelFile(excelFile)
-		#Recorrer cada hoja que representa una raid
-		for hoja_nombre in xls.sheet_names:
-			hoja = xls.parse(hoja_nombre)		
-			#Crear u obtener la raid si ya existe
-			nombreRaid = hoja_nombre.strip()
-			
-			raid, created = Raid.objects.get_or_create(name=nombreRaid)
+            # Leer el archivo Excel utilizando pandas
+            xls = pd.ExcelFile(excelFile)
+            #Recorrer cada hoja que representa una raid
+            for hoja_nombre in xls.sheet_names:
+                hoja = xls.parse(hoja_nombre)			
 
-			# Leer cada columna que representa un boss
-			for nombreColumna in hoja.columns:
-				#obtenemos o creamos el boss
-				nombreBoss = nombreColumna.strip()
-				
-				boss, created = RaidBoss.objects.get_or_create(name=nombreBoss,raid=raid)
-				columna = hoja[nombreColumna]
-				itemList = columna.tolist()
+                # Leer cada columna que representa un boss
+                for nombreColumna in hoja.columns:
+                    #obtenemos o creamos el boss
+                    nombreBoss,correct = validataString(nombreColumna)
+                    if correct:                    
+                        boss, created = RaidBoss.objects.get_or_create(name=nombreBoss)
+                        columna = hoja[nombreColumna]
+                        itemList = columna.tolist()
 
-				for item in itemList:
-					if isinstance(item,str):
-						itemName = item.strip()
-						item, created = BossItem.objects.get_or_create(name=itemName,boss=boss)		
-		
-		return HttpResponse("Initialized")
+                        for item in itemList:
+                            nombreItem,correct = validataString(item)
+                            if correct:                                
+                                item, created = BossItem.objects.get_or_create(name=nombreItem,boss=boss)		
+            
+            return HttpResponse(
+                json.dumps({"success": True}),
+                content_type="application/json") 
+        except:
+            return HttpResponse(
+                json.dumps({"success": False}),
+                content_type="application/json") 
+    else:
+        return HttpResponse(
+                json.dumps({"success": False}),
+                content_type="application/json")
+
  
 
-def raidListView(request):	
-	context = {}	
-	raid = Raid.objects.all()	
-	serializer = RaidSerializer(raid,many=True)
-	context["raid"] = serializer.data
 
-	return JsonResponse(serializer.data, safe=False)
-	#return render (request, "raidListViewTemplate.html",context)
+@login_required(login_url='bisListView')
+def initializePlayerItems(request):
+    if request.method == 'POST' and request.FILES['excelFile']:
+        try:
+            excelFile = request.FILES['excelFile']
 
-def bisListView(request,raidID):	
-	context = {}	
-	raid = Raid.objects.filter(pk=raidID).first()
-	bosses = RaidBoss.objects.filter(raid=raid).all()
-	serializer = RaidBossSerializer(bosses,many=True)
-	context["bosses"] = serializer.data
+            # Leer el archivo Excel utilizando pandas
+            xls = pd.ExcelFile(excelFile)
+            #Recorrer cada hoja 
+            for hoja_nombre in xls.sheet_names:
+                hoja = xls.parse(hoja_nombre)			
 
-	return JsonResponse(serializer.data, safe=False)
-	#return render (request, "bisListViewTemplate.html",context)
+                # Leer cada columna que representa un player
+                for nombreColumna in hoja.columns:
+                    #obtenemos o creamos el player
+                    nombrePlayer,correct = validataString(nombreColumna)
+                    if correct:                    
+                        player, created = Player.objects.get_or_create(name=nombrePlayer)
+                        columna = hoja[nombreColumna]
+                        itemList = columna.tolist()
 
+                        for item in itemList:
+                            nombreItem,correct = validataString(item)
+                            if correct:                               
+                                boss_item, existe_item = obtener_boss_item_por_nombre(nombreItem)	
+                                if existe_item:
+                                    player.bisItems.add(boss_item)
+            
+            return HttpResponse(
+                json.dumps({"success": True}),
+                content_type="application/json") 
+        except:
+            return HttpResponse(
+                json.dumps({"success": False}),
+                content_type="application/json")
+    else:
+        return HttpResponse(
+                json.dumps({"success": False}),
+                content_type="application/json")
+
+
+
+
+@login_required(login_url='bisListView')
+def cleanDatabase(request):	
+    if request.method == 'POST':	
+        try:
+            Player.objects.all().delete()
+            RaidBoss.objects.all().delete()
+
+            return HttpResponse(
+                json.dumps({"success": True}),
+                content_type="application/json") 
+        except:
+            return HttpResponse(
+                json.dumps({"success": False}),
+                content_type="application/json") 
+          
+       

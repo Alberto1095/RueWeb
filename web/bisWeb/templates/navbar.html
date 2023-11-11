@@ -1,0 +1,22 @@
+{% load static %}
+{% get_static_prefix as STATIC_PREFIX %}
+<div class="navbar">    
+    {% if not logged %}             
+        <form id="loginForm" class="right-container" action="/bisWeb/login" method="post">
+            {% csrf_token %}
+            <input id="usernameInputText" type="text" placeholder="Usuario" name="username">
+            <input id="passWordInputText" type="password" placeholder="Contraseña" name="password">
+            <button id="iniciarSesionButton" type="submit">Iniciar Sesión</button>
+        </form>
+    {% else %}
+        <div class="right-container">
+            <p>Logged as {{username}}</p>   
+            {% if not inAdminPanel %}     
+                <button id="panelControlButton" type="submit">Panel de Control</button>   
+            {% else %} 
+                <button id="bisViewButton" type="submit">Lista Items</button>    
+            {% endif %}
+            <button id="salirSesionButton" type="submit">Salir Sesión</button>
+        </div>
+    {% endif %}
+</div>

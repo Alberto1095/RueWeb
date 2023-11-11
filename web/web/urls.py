@@ -20,6 +20,6 @@ from bisWeb import views as bisWebViews
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', bisWebViews.test, name="Launcher"),
+    path('', bisWebViews.bisListView, name="bisListView"),
     path('bisWeb/',include('bisWeb.urls')),
 ]

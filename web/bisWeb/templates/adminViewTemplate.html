@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+{% load static %}
+{% get_static_prefix as STATIC_PREFIX %}
+<html>
+
+<head>
+    {% include "head.html" %}
+    <title>Rue</title>   
+</head>
+
+<body>
+    {% include "navbar.html" %}   
+
+    <div class="content">        
+        <div class="adminPanelContainer">
+            <h2>Carga de Archivos y Borrado de Base de Datos</h2>
+    
+            <!-- Formulario para subir listado de items -->
+            <form id="itemsUploadForm" action="">               
+                <label for="fileItems">Subir archivo .xlsx de Listado de Items:</label>
+                <input id="fileItemsUpload" type="file" id="fileItems" name="fileItems" accept=".xlsx">
+                <button type="submit">Subir</button>
+            </form>
+    
+            <!-- Formulario para subir listado de bises de jugadores -->
+            <form id="playerBisesUploadForm" action="">                
+                <label for="fileBises">Subir archivo .xlsx de Listado de Bises de Jugadores:</label>
+                <input id="filePlayerBisesUpload" type="file" id="fileBises" name="fileBises" accept=".xlsx">
+                <button type="submit">Subir</button>
+            </form>
+    
+            <!-- Botón para borrar la base de datos -->
+            <button class="deleteButton" id="borrarBaseDatosButton" type="button">Borrar Base de Datos</button>
+        </div>
+    </div>
+    <!--====== js ======-->
+    {% include "js.html" %}   
+   
+    <script src="{{ STATIC_PREFIX }}js/adminView.js"></script>
+    <script src="{{ STATIC_PREFIX }}js/navBar.js"></script>
+    <!--====== End js ======-->
+
+</body>
+
+</html>

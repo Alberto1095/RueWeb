@@ -16,14 +16,13 @@ Including another URLconf
 from django.urls import path, include
 from . import views
 
-urlpatterns = [
-    path('test', views.test),    
+urlpatterns = [   
     path('login', views.loginView, name='login'),
     path('logout', views.logoutUser, name='logout'), 
-    path('adminPanel', views.adminView, name='adminView'),  
-    path('raidListView', views.raidListView, name='raidListView'),   
-    path('bisListView/<raidID>', views.bisListView, name='bisListView'),   
-    path('addItemsToPlayer', views.addItemsToPlayer, name='addItemsToPlayer'),  
+    path('cleanDatabase', views.cleanDatabase, name='cleanDatabase'), 
+    path('adminPanel', views.adminView, name='adminView'),   
+    path('bisListView', views.bisListView, name='bisListView'),   
+    path('initializePlayerItems', views.initializePlayerItems, name='initializePlayerItems'),  
     path('initializeDatabase', views.initializeDatabase, name='initializeDatabase'),  
     
 ]
