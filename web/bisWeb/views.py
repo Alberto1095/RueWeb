@@ -10,61 +10,12 @@ import pandas as pd
 from django.views.decorators.csrf import csrf_exempt
 import json
 
-# Create your views here.
-def bisListView(request):	
-    context = {}
-    if request.user.is_authenticated:
-        context["logged"] = True
-        context["username"] = request.user.username
-    else:
-        context["logged"] = False        
-
-    context["inAdminPanel"] = False    
-    bosses = RaidBoss.objects.filter().all()
-    serializer = RaidBossSerializer(bosses,many=True)
-    jsonData = json.dumps(serializer.data)
-    context["bosses"] = jsonData
-    
-    return render(request, "bisViewTemplate.html", context)
-
-def loginView(request):	
-    print("login")
-    if request.user.is_authenticated:
-        return redirect("adminView")
-    else:
-        if request.method == "POST":
-            username = request.POST.get('username')
-            password = request.POST.get('password')
-            user = authenticate(request, username=username, password=password)
-            if user is not None:
-                login(request, user)
-                return redirect("adminView")
-            else:
-                context = {}
-                context["errorLogin"] = True
-                context["logged"] = False  
-                context["inAdminPanel"] = False
-                bosses = RaidBoss.objects.filter().all()
-                serializer = RaidBossSerializer(bosses,many=True)
-                jsonData = json.dumps(serializer.data)
-                context["bosses"] = jsonData             
-                return render(request, "bisViewTemplate.html", context)        
-
-def logoutUser(request):	
-    logout(request)
-    return redirect("bisListView")
-
-@login_required(login_url='bisListView')
-def adminView(request):	
-    context = {}
-    context["logged"] = True
-    context["username"] = request.user.username
-    context["inAdminPanel"] = True 
-    return render (request, "adminViewTemplate.html",context)
+#Utilities
 
 def obtener_boss_item_por_nombre(nombre_item):
     try:
-        boss_item = BossItem.objects.get(name=nombre_item)
+        nombre_item = nombre_item.lower()
+        boss_item = BossItem.objects.get(name__iexact=nombre_item)
         existe_item = True
     except BossItem.DoesNotExist:
         boss_item = None
@@ -85,7 +36,61 @@ def validataString(value):
             return value,False
     except:
         return value,False
+
+def getAllBossesDataInJSON():
+    bosses = RaidBoss.objects.filter().all()
+    serializer = RaidBossSerializer(bosses,many=True)
+    jsonData = json.dumps(serializer.data)
+
+    return jsonData
+
+# Create your views here.
+def bisListView(request):	
+    context = {}
+    if request.user.is_authenticated:
+        context["logged"] = True
+        context["username"] = request.user.username
+    else:
+        context["logged"] = False        
+
+    context["inAdminPanel"] = False       
+    context["bosses"] = getAllBossesDataInJSON()
     
+    return render(request, "bisViewTemplate.html", context)
+
+def loginView(request):	
+    print("login")
+    if request.user.is_authenticated:
+        return redirect("adminView")
+    else:
+        if request.method == "POST":
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect("adminView")
+            else:
+                context = {}
+                context["errorLogin"] = True
+                context["logged"] = False  
+                context["inAdminPanel"] = False                
+                context["bosses"] = getAllBossesDataInJSON() 
+
+                return render(request, "bisViewTemplate.html", context)        
+
+def logoutUser(request):	
+    logout(request)
+    return redirect("bisListView")
+
+@login_required(login_url='bisListView')
+def adminView(request):	
+    context = {}
+    context["logged"] = True
+    context["username"] = request.user.username
+    context["inAdminPanel"] = True 
+    return render (request, "adminViewTemplate.html",context)
+
 
 @login_required(login_url='bisListView')
 def initializeDatabase(request):
@@ -135,26 +140,26 @@ def initializePlayerItems(request):
             excelFile = request.FILES['excelFile']
 
             # Leer el archivo Excel utilizando pandas
-            xls = pd.ExcelFile(excelFile)
-            #Recorrer cada hoja 
-            for hoja_nombre in xls.sheet_names:
-                hoja = xls.parse(hoja_nombre)			
+            xls = pd.ExcelFile(excelFile)            
+            
+            #Leemos la priemra hoja con la informacion de los jugadores
+            hoja = xls.parse(xls.sheet_names[0])			
 
-                # Leer cada columna que representa un player
-                for nombreColumna in hoja.columns:
-                    #obtenemos o creamos el player
-                    nombrePlayer,correct = validataString(nombreColumna)
-                    if correct:                    
-                        player, created = Player.objects.get_or_create(name=nombrePlayer)
-                        columna = hoja[nombreColumna]
-                        itemList = columna.tolist()
+            # Leer cada columna que representa un player
+            for nombreColumna in hoja.columns:
+                #obtenemos o creamos el player
+                nombrePlayer,correct = validataString(nombreColumna)
+                if correct:                    
+                    player, created = Player.objects.get_or_create(name=nombrePlayer)
+                    columna = hoja[nombreColumna]
+                    itemList = columna.tolist()
 
-                        for item in itemList:
-                            nombreItem,correct = validataString(item)
-                            if correct:                               
-                                boss_item, existe_item = obtener_boss_item_por_nombre(nombreItem)	
-                                if existe_item:
-                                    player.bisItems.add(boss_item)
+                    for item in itemList:
+                        nombreItem,correct = validataString(item)
+                        if correct:                               
+                            boss_item, existe_item = obtener_boss_item_por_nombre(nombreItem)	
+                            if existe_item:
+                                player.bisItems.add(boss_item)
             
             return HttpResponse(
                 json.dumps({"success": True}),
