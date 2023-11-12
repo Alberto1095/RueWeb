@@ -250,14 +250,14 @@ function initialize(){
                 if(data.success) {                    
                     updatePlayerList(data.itemsPickedJson);
                 }else{
-                    alert('¡Error al establecer item!');
+                    alert('¡Error al establecer nota!');
                 }
                 
             },
             error: function (error) {
                 // Manejar errores
                 console.log(error);
-                alert('¡Error al establecer item!');
+                alert('¡Error al establecer nota!');
             }
         });        
     });
@@ -284,13 +284,13 @@ function initialize(){
                 if(data.success) {                    
                     updatePlayerList(data.itemsPickedJson);
                 }else{
-                    alert('¡Error al borrar item!');
+                    alert('¡Error al borrar nota!');
                 }             
             },
             error: function (error) {
                 // Manejar errores
                 console.log(error);
-                alert('¡Error al borrar item!');
+                alert('¡Error al borrar nota!');
             }
         });        
     });
