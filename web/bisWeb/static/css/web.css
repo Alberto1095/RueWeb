@@ -13,12 +13,23 @@
     margin-right: 25px;
 }
 
-body {
+.background-container {
     background-image: url('https://wow.zamimg.com/uploads/screenshots/normal/1126478.jpg');
+    background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
-    background-size: cover;
-  }
+    filter: opacity(0.5); /* Change the opacity value as needed */
+    height: 100vh; /* Adjust the height as needed */
+    overflow: hidden; /* Ensure the background doesn't overflow */
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    z-index: -1;
+}
+
+
 /* NAVBAR */
 
 .navbar {
