@@ -131,32 +131,78 @@
     background-color: #ccc;
 }
 
+.bis-container .player-container{
+    display: flex;
+    flex-direction: row;   
+    max-height: 300px;  
+    column-gap: 10px;
+}
+
+.bis-container .pickItem-container{
+    width: fit-content;
+    display: flex;
+    flex-direction: column;   
+    padding: 10px;   
+    border: 1px solid #ccc;
+    align-items: center;
+    justify-content: flex-start;
+    row-gap: 10px;
+    
+}
+
+.bis-container .pickItem-container.hide{
+    display: none;
+}
+
+.bis-container .pickItem-container button{
+    background-color: #4CAF50;
+    color: white;
+    padding: 6px 10px;    
+    border: none;
+    cursor: pointer;  
+    width: 100%;
+}
+
+.bis-container .pickItem-container button.hide{
+    display: none;
+}
+
+.bis-container .pickItem-container button:hover{
+    opacity: 0.8;
+}
+
+.bis-container .pickItem-container input[type=text]{
+    padding: 6px;   
+    width: 150px;    
+    border: 1px solid #ccc;   
+}
+
 .bis-container .playerList-container{
     display: flex;
     flex-direction: column;   
-    padding: 10px;
-    max-height: 300px;
+    padding: 10px;   
+    border: 1px solid #ccc;    
     overflow-y: auto;
-    border: 1px solid #ccc;
+    flex-grow: 1;
 }
 
 .bis-container .player{
     width: 100%;
     text-align: left;
 }
-
+.bis-container .player:hover{
+    background-color: #ccc;
+}
+.bis-container .player.selected{
+    background-color:#4CAF50;
+}
+.bis-container .player.hasItem{
+    color: red;
+}
 
 /* ADMIN PANEL  */
 
-.admin-content{
-    margin-top: 80px;
-    margin-left: 25px;
-    margin-right: 25px;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;     
-}
+
 
 .adminPanelContainer {
     display: flex;
@@ -168,7 +214,7 @@
     border: 1px solid #ccc;
     width: fit-content;
     margin: auto;
-    
+    ;
 }
 
 .adminPanelContainer h2{

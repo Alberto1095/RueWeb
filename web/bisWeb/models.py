@@ -25,4 +25,10 @@ class Player(models.Model):
     def __str__(self):
         return self.name 
 
+class ItemPicked(models.Model):
+    player = models.ForeignKey(Player, on_delete=models.CASCADE)
+    bossItem = models.ForeignKey(BossItem, on_delete=models.CASCADE)    
+    itemLevel = models.CharField(max_length=64)
 
+    def __str__(self):
+        return self.player.name + " - "+self.bossItem.name +" - "+self.itemLevel

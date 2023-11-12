@@ -40,8 +40,15 @@ def validataString(value):
 def getAllBossesDataInJSON():
     bosses = RaidBoss.objects.filter().all()
     serializer = RaidBossSerializer(bosses,many=True)
-    jsonData = json.dumps(serializer.data)
+    jsonData = json.dumps(serializer.data)    
+    
+    return jsonData
 
+def getAllItemsPickedUpDataInJSON():
+    items = ItemPicked.objects.filter().all()
+    serializer = ItemPickedSerializer(items,many=True)
+    jsonData = json.dumps(serializer.data)    
+    
     return jsonData
 
 # Create your views here.
@@ -55,6 +62,7 @@ def bisListView(request):
 
     context["inAdminPanel"] = False       
     context["bosses"] = getAllBossesDataInJSON()
+    context["itemsPicked"] = getAllItemsPickedUpDataInJSON()
     
     return render(request, "bisViewTemplate.html", context)
 
@@ -75,7 +83,8 @@ def loginView(request):
                 context["errorLogin"] = True
                 context["logged"] = False  
                 context["inAdminPanel"] = False                
-                context["bosses"] = getAllBossesDataInJSON() 
+                context["bosses"] = getAllBossesDataInJSON()
+                context["itemsPicked"] = getAllItemsPickedUpDataInJSON() 
 
                 return render(request, "bisViewTemplate.html", context)        
 
@@ -192,3 +201,54 @@ def cleanDatabase(request):
                 content_type="application/json") 
           
        
+@login_required(login_url='bisListView')
+def addOrUpdateItemPicked(request):	
+    if request.method == 'POST':
+        try:	
+            playerId = request.POST.get('playerId')
+            itemId = request.POST.get('itemId')
+            itemLevel = request.POST.get('itemLevel')
+
+            player = Player.objects.get(id=playerId)
+            item = BossItem.objects.get(id=itemId)
+
+            # Crear o actualizar el modelo ItemPicked
+            item_picked, created = ItemPicked.objects.get_or_create(
+                player=player,
+                bossItem=item,
+                defaults={'itemLevel': itemLevel}
+            )
+
+            # Si ya existía, actualiza el nivel del ítem
+            if not created:
+                item_picked.itemLevel = itemLevel
+                item_picked.save()
+
+            return HttpResponse(
+                    json.dumps({"success": True,"itemsPickedJson":getAllItemsPickedUpDataInJSON()}),
+                    content_type="application/json")
+        except:
+            return HttpResponse(
+                json.dumps({"success": False}),
+                content_type="application/json") 
+        
+
+@login_required(login_url='bisListView')
+def removeItemPicked(request):	
+    if request.method == 'POST':
+        try:	
+            playerId = request.POST.get('playerId')
+            itemId = request.POST.get('itemId')             
+            print(playerId)
+            print(itemId)
+            item_picked = ItemPicked.objects.get(player__id=playerId, bossItem__id=itemId)            
+            # Eliminar el objeto de la base de datos
+            item_picked.delete()          
+
+            return HttpResponse(
+                    json.dumps({"success": True,"itemsPickedJson":getAllItemsPickedUpDataInJSON()}),
+                    content_type="application/json")
+        except:
+            return HttpResponse(
+                json.dumps({"success": False}),
+                content_type="application/json") 

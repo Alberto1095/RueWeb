@@ -24,5 +24,6 @@ urlpatterns = [
     path('bisListView', views.bisListView, name='bisListView'),   
     path('initializePlayerItems', views.initializePlayerItems, name='initializePlayerItems'),  
     path('initializeDatabase', views.initializeDatabase, name='initializeDatabase'),  
-    
+    path('addOrUpdateItemPicked', views.addOrUpdateItemPicked, name='addOrUpdateItemPicked'),    
+    path('removeItemPicked', views.removeItemPicked, name='removeItemPicked'), 
 ]

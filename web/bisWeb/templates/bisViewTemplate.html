@@ -25,28 +25,36 @@
                     <div class="item">Item name</div>
                     <div class="item selected">Item name</div>                    
                 </div>
-                <div id="playerList" class="playerList-container">
-                    <div id="playerButton" class="player">Player name</div>
-                    <div id="playerButton" class="player">Player name</div>
-                    <div id="playerButton" class="player">Player name</div>
-                    <div id="playerButton" class="player">Player name</div>     
-                    <div id="playerButton" class="player">Player name</div>
-                    <div id="playerButton" class="player">Player name</div>
-                    <div id="playerButton" class="player">Player name</div>
-                    <div id="playerButton" class="player">Player name</div>    
-                    <div id="playerButton" class="player">Player name</div>
-                    <div id="playerButton" class="player">Player name</div>
-                    <div id="playerButton" class="player">Player name</div>
-                    <div id="playerButton" class="player">Player name</div>    
-                    <div id="playerButton" class="player">Player name</div>
-                    <div id="playerButton" class="player">Player name</div>
-                    <div id="playerButton" class="player">Player name</div>
-                    <div id="playerButton" class="player">Player name</div>    
-                    <div id="playerButton" class="player">Player name</div>
-                    <div id="playerButton" class="player">Player name</div>
-                    <div id="playerButton" class="player">Player name</div>
-                    <div id="playerButton" class="player">Player name</div>                   
+                <div class="player-container">
+                    <div id="playerList" class="playerList-container">
+                        <div id="playerButton" class="player">Player name</div>
+                        <div id="playerButton" class="player">Player name</div>
+                        <div id="playerButton" class="player">Player name</div>
+                        <div id="playerButton" class="player">Player name</div>     
+                        <div id="playerButton" class="player">Player name</div>
+                        <div id="playerButton" class="player">Player name</div>
+                        <div id="playerButton" class="player">Player name</div>
+                        <div id="playerButton" class="player">Player name</div>    
+                        <div id="playerButton" class="player">Player name</div>
+                        <div id="playerButton" class="player">Player name</div>
+                        <div id="playerButton" class="player">Player name</div>
+                        <div id="playerButton" class="player">Player name</div>    
+                        <div id="playerButton" class="player">Player name</div>
+                        <div id="playerButton" class="player">Player name</div>
+                        <div id="playerButton" class="player">Player name</div>
+                        <div id="playerButton" class="player">Player name</div>    
+                        <div id="playerButton" class="player">Player name</div>
+                        <div id="playerButton" class="player">Player name</div>
+                        <div id="playerButton" class="player">Player name</div>
+                        <div id="playerButton" class="player">Player name</div>                   
+                    </div>
+                    <div id="pickItemContainer" class="pickItem-container hide">                        
+                        <input id="itemLevelInputText" type="text" placeholder="Item level" name="itemLevelInputText">
+                        <button id="addItem">Añadir item</button>
+                        <button id="removeItem">Borrar item</button>
+                    </div>
                 </div>
+                
             </div>
         </div>       
     </div>
@@ -60,6 +68,8 @@
         {% endif %}
 
         var bossesJsonString = "{{ bosses }}";  
+        var itemsPickedJsonString = "{{ itemsPicked }}"; 
+        var loggedAsAdmin = "{{ logged}}"; 
     </script>
     <script src="{{ STATIC_PREFIX }}js/bisView.js"></script>
     <script src="{{ STATIC_PREFIX }}js/navBar.js"></script>

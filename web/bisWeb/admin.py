@@ -6,3 +6,4 @@ from .models import *
 admin.site.register(RaidBoss)
 admin.site.register(BossItem)
 admin.site.register(Player)
+admin.site.register(ItemPicked)
