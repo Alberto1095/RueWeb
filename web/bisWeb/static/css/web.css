@@ -13,6 +13,12 @@
     margin-right: 25px;
 }
 
+body {
+    background-image: url('https://wow.zamimg.com/uploads/screenshots/normal/1126478.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+  }
 /* NAVBAR */
 
 .navbar {
