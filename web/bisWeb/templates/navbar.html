@@ -1,6 +1,7 @@
 {% load static %}
 {% get_static_prefix as STATIC_PREFIX %}
 <div class="navbar">    
+    <h1>Rue Del Percebe</h1>
     {% if not logged %}             
         <form id="loginForm" class="right-container" action="/bisWeb/login" method="post">
             {% csrf_token %}
