@@ -160,6 +160,9 @@ def initializePlayerItems(request):
                 nombrePlayer,correct = validataString(nombreColumna)
                 if correct:                    
                     player, created = Player.objects.get_or_create(name=nombrePlayer)
+                    #Clear previous items
+                    player.bisItems.clear()
+                    #Add new items
                     columna = hoja[nombreColumna]
                     itemList = columna.tolist()
 
