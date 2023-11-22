@@ -22,6 +22,7 @@ urlpatterns = [
     path('cleanDatabase', views.cleanDatabase, name='cleanDatabase'), 
     path('adminPanel', views.adminView, name='adminView'),   
     path('bisListView', views.bisListView, name='bisListView'),   
+    path('playerBisListView', views.playerBisListView, name='playerBisListView'),   
     path('initializePlayerItems', views.initializePlayerItems, name='initializePlayerItems'),  
     path('initializeDatabase', views.initializeDatabase, name='initializeDatabase'),  
     path('addOrUpdateItemPicked', views.addOrUpdateItemPicked, name='addOrUpdateItemPicked'),    

@@ -1,0 +1,133 @@
+/* LISTA ITEMS  */
+
+.bis-container {
+    display: flex;
+    width: 100%;   
+    flex-direction: row; 
+    column-gap: 10px;
+    border: 2px solid black;    
+    padding: 10px;
+}
+
+.bis-container .bossList-container{
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    padding: 10px;
+    border: 1px solid black;
+    overflow-x: auto;
+}
+
+.bis-container .boss{
+    width: 100%;
+    text-align: left;
+}
+
+.bis-container .boss.selected{
+    background-color:#4CAF50
+}
+
+.bis-container .boss:hover{
+    background-color: #ccc;
+    cursor: pointer;
+}
+
+.bis-container .right-container {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;    
+    row-gap: 10px;
+}
+
+.bis-container .itemsList-container{
+    display: flex;
+    flex-direction: column;   
+    padding: 10px;
+    height: fit-content;
+    border: 1px solid black;
+}
+
+.bis-container .item{
+    width: 100%;
+    text-align: left;
+}
+
+.bis-container .item.selected{
+    background-color:#4CAF50
+}
+
+
+.bis-container .item:hover{
+    background-color: #ccc;
+    cursor: pointer;  
+}
+
+.bis-container .player-container{
+    display: flex;
+    flex-direction: row;   
+    max-height: 300px;  
+    column-gap: 10px;
+}
+
+.bis-container .pickItem-container{
+    width: fit-content;
+    display: flex;
+    flex-direction: column;   
+    padding: 10px;   
+    border: 1px solid black;
+    align-items: center;
+    justify-content: flex-start;
+    row-gap: 10px;
+    
+}
+
+.bis-container .pickItem-container.hide{
+    display: none;
+}
+
+.bis-container .pickItem-container button{
+    background-color: #4CAF50;
+    color: white;
+    padding: 6px 10px;    
+    border: none;
+    cursor: pointer;  
+    width: 100%;
+}
+
+.bis-container .pickItem-container button.hide{
+    display: none;
+}
+
+.bis-container .pickItem-container button:hover{
+    opacity: 0.8;
+}
+
+.bis-container .pickItem-container input[type=text]{
+    padding: 6px;   
+    width: 150px;    
+    border: 1px solid #ccc;   
+}
+
+.bis-container .playerList-container{
+    display: flex;
+    flex-direction: column;   
+    padding: 10px;   
+    border: 1px solid black;    
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
+.bis-container .player{
+    width: 100%;
+    text-align: left;
+}
+.bis-container .player:hover{
+    background-color: #ccc;
+    cursor: pointer;
+}
+.bis-container .player.selected{
+    background-color:#4CAF50;
+}
+.bis-container .player.hasItem{
+    color: red;
+}

@@ -40,31 +40,17 @@ def validataString(value):
 def getAllBossesDataInJSON():
     bosses = RaidBoss.objects.filter().all()
     serializer = RaidBossSerializer(bosses,many=True)
-    jsonData = json.dumps(serializer.data)    
-    
+    jsonData = json.dumps(serializer.data)     
     return jsonData
 
 def getAllItemsPickedUpDataInJSON():
     items = ItemPicked.objects.filter().all()
     serializer = ItemPickedSerializer(items,many=True)
-    jsonData = json.dumps(serializer.data)    
-    
+    jsonData = json.dumps(serializer.data)     
     return jsonData
 
 # Create your views here.
-def bisListView(request):	
-    context = {}
-    if request.user.is_authenticated:
-        context["logged"] = True
-        context["username"] = request.user.username
-    else:
-        context["logged"] = False        
 
-    context["inAdminPanel"] = False       
-    context["bosses"] = getAllBossesDataInJSON()
-    context["itemsPicked"] = getAllItemsPickedUpDataInJSON()
-    
-    return render(request, "bisViewTemplate.html", context)
 
 def loginView(request):	
     print("login")
@@ -81,16 +67,48 @@ def loginView(request):
             else:
                 context = {}
                 context["errorLogin"] = True
-                context["logged"] = False  
-                context["inAdminPanel"] = False                
+                context["logged"] = False                           
                 context["bosses"] = getAllBossesDataInJSON()
                 context["itemsPicked"] = getAllItemsPickedUpDataInJSON() 
 
-                return render(request, "bisViewTemplate.html", context)        
+                redirectURL = request.POST.get('errorRedirectURL')
+
+                if redirectURL == "bisListView":
+                    return render(request, "bisViewTemplate.html", context)      
+                elif redirectURL== "playerBisListView":
+                    return render(request, "playerBisListViewTemplate.html", context)      
+                else:
+                    return render(request, "bisViewTemplate.html", context)        
 
 def logoutUser(request):	
     logout(request)
     return redirect("bisListView")
+
+def bisListView(request):	
+    context = {}
+    if request.user.is_authenticated:
+        context["logged"] = True
+        context["username"] = request.user.username
+    else:
+        context["logged"] = False  
+        
+    context["bosses"] = getAllBossesDataInJSON()
+    context["itemsPicked"] = getAllItemsPickedUpDataInJSON()
+    
+    return render(request, "bisViewTemplate.html", context)
+
+
+def playerBisListView(request):	
+    context = {}
+    if request.user.is_authenticated:
+        context["logged"] = True
+        context["username"] = request.user.username
+    else:
+        context["logged"] = False  
+       
+    context["bosses"] = getAllBossesDataInJSON()    
+    
+    return render(request, "playerBisListViewTemplate.html", context)
 
 @login_required(login_url='bisListView')
 def adminView(request):	

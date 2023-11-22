@@ -5,11 +5,21 @@
 
 <head>
     {% include "head.html" %}
+    <link rel="stylesheet" href="{{ STATIC_PREFIX }}css/general.css">
+    <link rel="stylesheet" href="{{ STATIC_PREFIX }}css/adminView.css">
     <title>Rue</title>   
 </head>
 
 <body>
-    {% include "navbar.html" %}   
+    <div class="navbar">    
+        <h1>Rue Del Percebe</h1>       
+        <div class="right-container">
+            <p>Logged as {{username}}</p>          
+            <button id="bisViewButton" type="submit">Lista BiS</button> 
+            <button id="playerBisListViewButton" type="button">Lista jugadores</button>                 
+            <button id="salirSesionButton" type="button">Salir Sesión</button>
+        </div>       
+    </div>
     <div class="background-container"></div>
     <div class="content">        
         <div class="adminPanelContainer">

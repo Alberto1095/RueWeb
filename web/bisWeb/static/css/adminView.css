@@ -1,0 +1,48 @@
+
+
+/* ADMIN PANEL  */
+
+.adminPanelContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;      
+    padding: 25px;
+    text-align: center;
+    flex-direction: column;
+    border: 2px solid black;    
+    width: fit-content;
+    margin: auto;    
+}
+
+.adminPanelContainer h2{
+    margin-bottom: 25px;
+}
+
+.adminPanelContainer form {
+    margin-bottom: 25px;
+    border: 1px solid black;
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    row-gap: 15px;   
+    width: 100%;
+}
+
+.adminPanelContainer button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 6px 10px;    
+    border: none;
+    cursor: pointer;      
+}
+
+.adminPanelContainer .deleteButton {
+    background-color: red ;   
+}
+
+.adminPanelContainer button:hover {
+    opacity: 0.8;
+}
+

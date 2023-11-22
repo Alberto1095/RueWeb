@@ -6,7 +6,7 @@
 <head>
     {% include "head.html" %}
     <link rel="stylesheet" href="{{ STATIC_PREFIX }}css/general.css">
-    <link rel="stylesheet" href="{{ STATIC_PREFIX }}css/bisView.css">
+    <link rel="stylesheet" href="{{ STATIC_PREFIX }}css/playerBisListView.css">
     <title>Rue</title>   
 </head>
 
@@ -16,17 +16,17 @@
         {% if not logged %}             
             <form id="loginForm" class="right-container" action="/bisWeb/login" method="post">
                 {% csrf_token %}
-                <input type="hidden" name="errorRedirectURL" value="bisListView">
-                <button id="playerBisListViewButton" type="button">Lista jugadores</button>                
+                <input type="hidden" name="errorRedirectURL" value="playerBisListView">
+                <button id="bisViewButton" type="button">Lista BiS</button>                
                 <input id="usernameInputText" type="text" placeholder="Usuario" name="username">
                 <input id="passWordInputText" type="password" placeholder="Contraseña" name="password">
                 <button id="iniciarSesionButton" type="submit">Iniciar Sesión</button>
             </form>
         {% else %}
             <div class="right-container">
-                <p>Logged as {{username}}</p>                
-                <button id="playerBisListViewButton" type="button">Lista jugadores</button>    
-                <button id="panelControlButton" type="button">Panel de Control</button>          
+                <p>Logged as {{username}}</p>              
+                <button id="bisViewButton" type="button">Lista BiS</button>   
+                <button id="panelControlButton" type="button">Panel de Control</button>    
                 <button id="salirSesionButton" type="button">Salir Sesión</button>
             </div>
         {% endif %}
@@ -34,23 +34,16 @@
     <div class="background-container"></div>
     <div class="content">        
         <div class="bis-container">
-            <div id="bossList" class="bossList-container">
+            <div id="playerList" class="playerList-container">
                
             </div>
             <div class="right-container">
-                <div id="itemList" class="itemsList-container">
+                <div id="bossList" class="bossList-container">
                                   
                 </div>
-                <div class="player-container">
-                    <div id="playerList" class="playerList-container">
+                <div id="itemList" class="itemList-container">
                        
-                    </div>
-                    <div id="pickItemContainer" class="pickItem-container hide">                        
-                        <input id="itemLevelInputText" type="text" placeholder="Texto nota..." name="itemLevelInputText">
-                        <button id="addItem">Añadir nota</button>
-                        <button id="removeItem">Borrar nota</button>
-                    </div>
-                </div>
+                </div>  
                 
             </div>
         </div>       
@@ -64,11 +57,10 @@
             alert('¡Usuario o contraseña incorrectos!');
         {% endif %}
 
-        var bossesJsonString = "{{ bosses }}";  
-        var itemsPickedJsonString = "{{ itemsPicked }}"; 
+        var bossesJsonString = "{{ bosses }}";        
         var loggedAsAdmin = "{{ logged}}"; 
     </script>
-    <script src="{{ STATIC_PREFIX }}js/bisView.js"></script>
+    <script src="{{ STATIC_PREFIX }}js/playerBisListView.js"></script>
     <script src="{{ STATIC_PREFIX }}js/navBar.js"></script>
     <!--====== End js ======-->
 

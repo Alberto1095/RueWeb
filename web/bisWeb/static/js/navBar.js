@@ -23,4 +23,10 @@ $(document).ready(function () {
        
         window.location.href = '/bisWeb/bisListView'; 
     });
+
+    //Clic en lista jugadores
+    $("#playerBisListViewButton").click(function () {
+    
+        window.location.href = '/bisWeb/playerBisListView'; 
+    });
 });
